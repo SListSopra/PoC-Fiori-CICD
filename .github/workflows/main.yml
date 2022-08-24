@@ -36,4 +36,12 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     concurrency: deploy-${{ github.ref }}
-  
+    steps:
+      - name: cloudFoundryDeploy
+        uses: SAP/project-piper-action@master
+        with:
+          command: cloudFoundryDeploy
+      - name: nexusUpload
+        uses: SAP/project-piper-action@master
+        with:
+          command: nexusUpload
