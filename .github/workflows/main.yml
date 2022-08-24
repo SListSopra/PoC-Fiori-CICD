@@ -23,6 +23,6 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v3
       - name: mtaBuild
-        uses: SAP/project-piper-action@1.0
+        uses: SAP/project-piper-action@master
         with:
           command: mtaBuild
