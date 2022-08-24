@@ -28,8 +28,11 @@ jobs:
         with:
           node-version: 16.x
           cache: 'npm'
-      - run: npm ci
-      - run: npm run build:cf
+      - name: mtaBuild
+        uses: SAP/project-piper-action@master
+        with:
+          command: mtaBuild
+          flags: --noTelemetry
   deploy:
     needs: build
     runs-on: ubuntu-latest
