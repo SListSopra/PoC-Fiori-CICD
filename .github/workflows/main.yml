@@ -17,6 +17,7 @@ jobs:
   build:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
+    concurrency: build-${{ github.ref }}
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
@@ -30,3 +31,9 @@ jobs:
         uses: SAP/project-piper-action@master
         with:
           command: mtaBuild
+          flags: --noTelemetry
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    concurrency: deploy-${{ github.ref }}
+  
