@@ -23,15 +23,13 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v3
-      - name: help
-        uses: SAP/project-piper-action@master
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
         with:
-          command: help
-      - name: mtaBuild
-        uses: SAP/project-piper-action@master
-        with:
-          command: mtaBuild
-          flags: --noTelemetry
+          node-version: 16.x
+          cache: 'npm'
+      - run: npm ci
+      - run: npm run build:cf
   deploy:
     needs: build
     runs-on: ubuntu-latest
