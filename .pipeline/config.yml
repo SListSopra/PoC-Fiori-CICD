@@ -1,0 +1,6 @@
+steps:
+  cloudFoundryDeploy:
+    deployTool: 'mtaDeployPlugin'
+    deployType: 'standard'
+    org: 'Sopra Steria SE_IDMADemoCF'
+    space: 'demo'

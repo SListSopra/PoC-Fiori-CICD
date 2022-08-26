@@ -36,16 +36,47 @@ jobs:
         uses: SAP/project-piper-action@master
         with:
           command: mtaBuild
+      - run: npm pack
+      - name: Upload mtar
+        uses: actions/upload-artifact@v3
+        if: success()
+        with:
+          name: mtar
+          path: ./*.mtar
+      - name: Upload npm package
+        uses: actions/upload-artifact@v3
+        if: success()
+        with:
+          name: npm
+          path: ./*.tgz
   deploy:
     needs: build
     runs-on: ubuntu-latest
     concurrency: deploy-${{ github.ref }}
     steps:
+      - name: Install cf CLI
+        run: |
+          wget -q -O - https://packages.cloudfoundry.org/debian/cli.cloudfoundry.org.key | sudo apt-key add -
+          echo "deb https://packages.cloudfoundry.org/debian stable main" | sudo tee /etc/apt/sources.list.d/cloudfoundry-cli.list
+          sudo apt-get update
+          sudo apt-get install cf8-cli
+      - uses: actions/checkout@v3
+      - name: Download mtar
+        uses: actions/download-artifact@v3
+        with:
+          name: mtar
+      - name: Download npm package
+        uses: actions/download-artifact@v3
+        with:
+          name: npm
       - name: cloudFoundryDeploy
         uses: SAP/project-piper-action@master
         with:
           command: cloudFoundryDeploy
-      - name: nexusUpload
-        uses: SAP/project-piper-action@master
-        with:
-          command: nexusUpload
+        env:
+          PIPER_username: ${{ secrets.CF_USERNAME }}
+          PIPER_password: ${{ secrets.CF_PASSWORD }}
+#      - name: nexusUpload
+#        uses: SAP/project-piper-action@master
+#        with:
+#          command: nexusUpload
