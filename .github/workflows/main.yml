@@ -36,11 +36,33 @@ jobs:
         uses: SAP/project-piper-action@master
         with:
           command: mtaBuild
+      - run: npm pack
+      - name: Upload mtar
+        uses: actions/upload-artifact@v3
+        if: success()
+        with:
+          name: mtar
+          path: mta_archives/*.mtar
+      - name: Upload npm package
+        uses: actions/upload-artifact@v3
+        if: success()
+        with:
+          name: npm
+          path: ./*.tgz
   deploy:
     needs: build
     runs-on: ubuntu-latest
     concurrency: deploy-${{ github.ref }}
     steps:
+      - uses: actions/checkout@v3
+      - name: Download mtar
+        uses: actions/download-artifact@v3
+        with:
+          name: mtar
+      - name: Download npm package
+        uses: actions/download-artifact@v3
+        with:
+          name: npm
       - run: pwd
       - run: ls
       - name: cloudFoundryDeploy
