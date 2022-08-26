@@ -1,3 +1,5 @@
+general:
+  collectTelemetryData: false
 steps:
   cloudFoundryDeploy:
     deployTool: 'mtaDeployPlugin'
