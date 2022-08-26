@@ -69,8 +69,6 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: npm
-      - run: pwd
-      - run: ls
       - name: cloudFoundryDeploy
         uses: SAP/project-piper-action@master
         with:
