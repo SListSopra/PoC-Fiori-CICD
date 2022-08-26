@@ -48,7 +48,7 @@ jobs:
         env:
           PIPER_username: ${{ secrets.CF_USERNAME }}
           PIPER_password: ${{ secrets.CF_PASSWORD }}
-      - name: nexusUpload
-        uses: SAP/project-piper-action@master
-        with:
-          command: nexusUpload
+#      - name: nexusUpload
+#        uses: SAP/project-piper-action@master
+#        with:
+#          command: nexusUpload
