@@ -34,7 +34,7 @@ jobs:
         run: echo "${npm bin}" >> $GITHUB_PATH
       - name: build
         uses: SAP/project-piper-action@master
-        wirh:
+        with:
           command: mtaBuild
       #- run: npm run build:cf
   deploy:
