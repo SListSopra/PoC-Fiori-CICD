@@ -6,7 +6,7 @@ name: CI
 on:
   # Triggers the workflow on push but only for the "main" branch
   push:
-    branches: [ "main", "develop" ]
+    branches: [ "main", "develop", "feature/*" ]
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -26,10 +26,16 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: 16.x
+          node-version: lts/*
           cache: 'npm'
-      - run: npm ci
-      - run: npm run build:cf
+      - name: Install dependencies
+        run: npm ci
+      - name: Update PATH for npm
+        run: echo "$(npm bin)" >> $GITHUB_PATH
+      - name: build
+        uses: SAP/project-piper-action@master
+        with:
+          command: mtaBuild
   deploy:
     needs: build
     runs-on: ubuntu-latest
