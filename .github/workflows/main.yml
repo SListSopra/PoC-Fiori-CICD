@@ -41,6 +41,8 @@ jobs:
     runs-on: ubuntu-latest
     concurrency: deploy-${{ github.ref }}
     steps:
+      - run: pwd
+      - run: ls
       - name: cloudFoundryDeploy
         uses: SAP/project-piper-action@master
         with:
