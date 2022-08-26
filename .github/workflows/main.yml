@@ -31,7 +31,7 @@ jobs:
       - name: Install dependencies
         run: npm ci
       - name: Update PATH for npm
-        run: echo "${npm bin}" >> $GITHUB_PATH
+        run: echo "$(npm bin)" >> $GITHUB_PATH
       - name: build
         uses: SAP/project-piper-action@master
         with:
