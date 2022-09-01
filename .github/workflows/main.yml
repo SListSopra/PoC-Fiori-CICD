@@ -60,6 +60,8 @@ jobs:
           echo "deb https://packages.cloudfoundry.org/debian stable main" | sudo tee /etc/apt/sources.list.d/cloudfoundry-cli.list
           sudo apt-get update
           sudo apt-get install cf8-cli
+          sudo cf add-plugin-repo CF-Community https://plugins.cloudfoundry.org
+          sudo cf install-plugin -r CF-Community multiapps -f
       - uses: actions/checkout@v3
       - name: Download mtar
         uses: actions/download-artifact@v3
