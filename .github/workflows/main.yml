@@ -63,6 +63,13 @@ jobs:
           cf add-plugin-repo CF-Community https://plugins.cloudfoundry.org
           cf install-plugin -r CF-Community multiapps -f
           cf plugins
+      - name: Install JFrog CLI
+        uses: jfrog/setup-jfrog-cli@v2
+        with:
+          version: latest
+        env:
+          JF_URL: ${{ secrets.ARTIFACTORY_URL }}
+          JF_ACCESS_TOKEN: ${{ secrets.ARTIFACTORY_ACCESS_TOKEN }}
       - uses: actions/checkout@v3
       - name: Download mtar
         uses: actions/download-artifact@v3
@@ -72,17 +79,11 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: npm
-      - name: Install JFrog CLI
-        uses: jfrog/setup-jfrog-cli@v2
-        with:
-          version: latest
-        env:
-          JF_URL: ${{ secrets.ARTIFACTORY_URL }}
-          JF_ACCESS_TOKEN: ${{ secrets.ARTIFACTORY_ACCESS_TOKEN }}
       - name: Deploy npm package
         run: |
+          jf --version
           jf rt ping
-          jf rt upload "*.tgz" generic-sap-cc
+#          jf rt upload "*.tgz" generic-sap-cc
       - name: cloudFoundryDeploy
         uses: SAP/project-piper-action@master
         with:
