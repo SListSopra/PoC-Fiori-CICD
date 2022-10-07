@@ -72,6 +72,16 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: npm
+      - name: Deploy npm package
+        uses: jfrog/setup-jfrog-cli@v2
+        with:
+          version: latest
+        env:
+          JF_URL: ${{ secrets.ARTIFACTORY_URL }}
+          JF_ACCESS_TOKEN: ${{ secrets.ARTIFACTORY_ACCESS_TOKEN }}
+        run: |
+          jf rt ping
+          jf rt upload "*.tgz" generic-sap-cc
       - name: cloudFoundryDeploy
         uses: SAP/project-piper-action@master
         with:
